@@ -7,7 +7,7 @@
     "start": "node index.js",
     "test": "nodemon index.js"
   },
-  "author": "",
+  "author": "Hesham Ahmos",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
