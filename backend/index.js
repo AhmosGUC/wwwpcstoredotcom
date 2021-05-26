@@ -36,25 +36,23 @@ async function createTable() {
         console.log("Error creating Computers table", error);
     }
 }
-initConn()
-    .then(() => {
-        createTable().then(() => {
-            fs.createReadStream(path.join(__dirname, "datastore/Dataset.csv"))
-                .pipe(csv())
-                .on('data', (row) => {
-                    Computer.create(row).then().catch(err => {
-                        console.log(err);
+app.listen(PORT, HOST, () => {
+    initConn()
+        .then(() => {
+            createTable().then(() => {
+                fs.createReadStream(path.join(__dirname, "datastore/Dataset.csv"))
+                    .pipe(csv())
+                    .on('data', (row) => {
+                        Computer.create(row).then().catch(err => {
+                            console.log(err);
+                        });
+                    })
+                    .on('end', () => {
+                        console.log('CSV file successfully processed and loaded to database (Memory).');
                     });
-                })
-                .on('end', () => {
-                    console.log('CSV file successfully processed and loaded to database (Memory).');
-                });
-        });
-    })
+            });
+        })
+    console.log(`Running on http://${HOST}:${PORT}.`);
+});
 
-
-
-
-
-app.listen(PORT, HOST);
-console.log(`Running on http://${HOST}:${PORT}.`);
+// module.exports = app;

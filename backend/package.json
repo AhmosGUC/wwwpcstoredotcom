@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "nodemon index.js"
+    "start": "nodemon index.js",
+    "run": "node index.js",
+    "test": "mocha computer.test.js --delay"
   },
   "author": "Hesham Ahmos",
   "license": "ISC",
@@ -18,6 +19,9 @@
     "sqlite3": "^5.0.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "chai": "^4.3.4",
+    "mocha": "^8.4.0",
+    "nodemon": "^2.0.7",
+    "supertest": "^6.1.3"
   }
 }
