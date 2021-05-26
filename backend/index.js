@@ -39,7 +39,7 @@ async function createTable() {
 initConn()
     .then(() => {
         createTable().then(() => {
-            fs.createReadStream(path.join(__dirname, "datastore/dataset.csv"))
+            fs.createReadStream(path.join(__dirname, "datastore/Dataset.csv"))
                 .pipe(csv())
                 .on('data', (row) => {
                     Computer.create(row).then().catch(err => {
