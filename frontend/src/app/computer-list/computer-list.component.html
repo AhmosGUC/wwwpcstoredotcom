@@ -1,3 +1,93 @@
-<p>
-  computer-list works!
-</p>
+<!-- <ul>
+  <li *ngFor="let computer of computers">
+    {{ computer.Company }} : {{computer.Product}}
+  </li>
+</ul> -->
+<!-- <mat-grid-tile
+*ngFor="let computer of computers"
+colspan="1"
+rowspan="1"
+style.background="white"> -->
+<!-- <form (submit)="searchReq()">
+  <select [(ngModel)]="ramQry" name="ram">
+    <option disabled selected value="">Filter By RAM</option>
+    <option *ngFor="let ram of ramOpt" [ngValue]=ram>{{ram}}</option>
+  </select>
+  <select [(ngModel)]="opSysQry" name="opSys">
+    <option disabled selected value="">Filter By OpSys</option>
+    <option *ngFor="let opSys of opSysOpt" [ngValue]=opSys>{{opSys}}</option>
+  </select>
+  <select [(ngModel)]="inchesQry" name="inches">
+    <option disabled selected value="">Filter By Inches</option>
+    <option *ngFor="let inches of inchesOpt" [ngValue]=inches>{{inches}}</option>
+  </select>
+  <input type='text' placeholder="Filter By Company" [(ngModel)]="companyQry" name="company">
+  <input type='text' placeholder="Filter By Prodcut" [(ngModel)]="productQry" name="product">
+  <input type='submit' value="Filter">
+</form> -->
+<div>
+  <mat-form-field>
+    <input matInput [(ngModel)]=companyQry placeholder="Company">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput [(ngModel)]=productQry placeholder="Product">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>CPU</mat-label>
+    <mat-select [(ngModel)]=cpuQry multiple>
+      <mat-option *ngFor="let cpu of cpuOpt" [value]=cpu>{{cpu}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>RAM</mat-label>
+    <mat-select [(ngModel)]=ramQry multiple>
+      <mat-option *ngFor="let ram of ramOpt" [value]=ram>{{ram}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>OpSys</mat-label>
+    <mat-select [(ngModel)]=opSysQry multiple>
+      <mat-option *ngFor="let opSys of opSysOpt" [value]=opSys>{{opSys}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Inches</mat-label>
+    <mat-select  [(ngModel)]=inchesQry multiple>
+      <mat-option *ngFor="let inches of inchesOpt" [value]=inches>{{inches}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-fab color="primary" (click)='searchReq()'>Search</button>
+</div>
+
+<mat-grid-list [cols]="gridCol" rowHeight="300px" (window:resize)="onResize($event)">
+  <mat-grid-tile *ngFor="let computer of computers" colspan="1" rowspan="1">
+    <mat-card>
+      <mat-card-header class="header">
+        <mat-card-title class="center">{{computer.Company}}</mat-card-title>
+        <mat-card-subtitle class="center">{{computer.Product}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <ul>
+          <li><b>CPU</b> : {{computer.CPU}} </li>
+          <li><b>RAM</b> : {{computer.RAM}} </li>
+          <li><b>OpSys</b> : {{computer.OpSys}} </li>
+          <li><b>Graphics</b> : {{computer.Graphics}} </li>
+          <li><b>Weight</b> : {{computer.Weight}} </li>
+          <li><b>Resolution</b> : {{computer.Resolution}} </li>
+          <li><b>Memory</b> : {{computer.Memory}} </li>
+          <li><b>Type</b> : {{computer.Type}} </li>
+          <li><b>Inches</b> : {{computer.Inches}} </li>
+        </ul>
+      </mat-card-content>
+      <mat-card-footer class="center">
+        <b>Price</b> : {{computer.Price}} $
+      </mat-card-footer>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
+
+<mat-paginator [length]="response.totalCount" [pageSize]="response.count" [pageSizeOptions]="pageSizeOptions"
+  (page)="pageChangeEventHandler($event)">
+</mat-paginator>

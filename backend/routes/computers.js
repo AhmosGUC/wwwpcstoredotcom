@@ -110,13 +110,17 @@ router.get('/inches', (req, res) => {
     });
 });
 
-router.get('/search', (req, res) => {
+router.post('/search', (req, res) => {
     const limit = req.query.limit || 10;
     const page = req.query.page || 1;
     const offset = (page - 1) * limit;
 
-    const company = req.query.company || "";
-    const product = req.query.product || "";
+    const company = req.body.company || "";
+    const product = req.body.product || "";
+    const cpu = req.body.cpu || [];
+    const ram = req.body.ram || [];
+    const opSys = req.body.opSys || [];
+    const inches = req.body.inches || [];
 
 
     Computer.findAndCountAll({
@@ -128,6 +132,18 @@ router.get('/search', (req, res) => {
             },
             Product: {
                 [Op.like]: '%' + product.toLocaleLowerCase() + '%'
+            },
+            CPU: {
+                [Op.or]: cpu
+            },
+            RAM: {
+                [Op.or]: ram
+            },
+            OpSys: {
+                [Op.or]: opSys
+            },
+            Inches: {
+                [Op.or]: inches
             }
         }
     }).then((result) => {

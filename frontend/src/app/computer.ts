@@ -1,16 +1,16 @@
 export class Computer {
     constructor(
-        public company: string,
-        public product: string,
-        public type: string,
-        public inches: Number,
+        public Company: string,
+        public Product: string,
+        public Type: string,
+        public Inches: Number,
         public Resolution: string,
-        public cpu: string,
-        public ram: string,
-        public memory: string,
-        public graphics: string,
-        public opsys: string,
-        public weight: string,
-        public price: Number,
+        public CPU: string,
+        public RAM: string,
+        public Memory: string,
+        public Graphics: string,
+        public OpSys: string,
+        public Weight: string,
+        public Price: Number,
     ) { }
 }
