@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "run": "node index.js",
     "test": "mocha computer.test.js --delay"
   },
   "author": "Hesham Ahmos",
