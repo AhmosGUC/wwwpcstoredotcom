@@ -1,6 +1,8 @@
 var express = require('express')
 var router = express.Router()
-const { Op } = require("sequelize");
+const {
+    Op
+} = require("sequelize");
 const Computer = require('../model/computer');
 
 
@@ -8,18 +10,20 @@ router.get('/', (req, res) => {
     const limit = req.query.limit || 10
     const page = req.query.page || 1
     const offset = (page - 1) * limit;
-    Computer.count().then((amount) => {
-        Computer.findAll({
-            offset: offset,
-            limit: limit
-        }).then((result) => {
-            res.json({
-                result: result,
-                count: limit,
-                totalCount: amount
-            });
-        })
+
+    Computer.findAndCountAll({
+        offset: offset,
+        limit: limit
+    }).then((result) => {
+        let data = result.rows;
+        let amount = result.count;
+        res.json({
+            result: data,
+            count: limit,
+            totalCount: amount
+        });
     })
+
 });
 router.get('/company', (req, res) => {
     Computer.aggregate('Company', 'DISTINCT', {
@@ -114,26 +118,28 @@ router.get('/search', (req, res) => {
     const company = req.query.company || "";
     const product = req.query.product || "";
 
-    Computer.count().then((amount) => {
-        Computer.findAll({
-            offset: offset,
-            limit: limit,
-            where: {
-                Company: {
-                    [Op.like]: '%' + company.toLocaleLowerCase() + '%'
-                },
-                Product: {
-                    [Op.like]: '%' + product.toLocaleLowerCase() + '%'
-                }
+
+    Computer.findAndCountAll({
+        offset: offset,
+        limit: limit,
+        where: {
+            Company: {
+                [Op.like]: '%' + company.toLocaleLowerCase() + '%'
+            },
+            Product: {
+                [Op.like]: '%' + product.toLocaleLowerCase() + '%'
             }
-        }).then((result) => {
-            res.json({
-                result: result,
-                count: result.length,
-                totalCount: amount
-            });
-        })
+        }
+    }).then((result) => {
+        let amount = result.count;
+        let data = result.rows;
+        res.json({
+            result: data,
+            count: data.length,
+            totalCount: amount
+        });
     })
+
 });
 
 module.exports = router

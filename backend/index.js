@@ -17,7 +17,7 @@ app.use(cors());
 app.use(bodyparser.json());
 
 var computerRoute = require('./routes/computers');
-app.use("/computers",computerRoute);
+app.use("/computers", computerRoute);
 
 async function initConn() {
     try {
