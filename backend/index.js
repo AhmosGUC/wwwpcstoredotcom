@@ -7,6 +7,7 @@ const express = require('express');
 var cors = require('cors')
 var bodyparser = require('body-parser')
 const csv = require('csv-parser');
+const path = require('path')
 const fs = require('fs');
 const db = require('./database');
 const Computer = require('./model/computer');
@@ -38,16 +39,16 @@ async function createTable() {
 initConn()
     .then(() => {
         createTable().then(() => {
-            fs.createReadStream('datastore/dataset.csv')
-                .pipe(csv())
-                .on('data', (row) => {
-                    Computer.create(row).then().catch(err => {
-                        console.log(err);
-                    });
-                })
-                .on('end', () => {
-                    console.log('CSV file successfully processed and loaded to database (Memory).');
-                });
+            // fs.createReadStream(path.join(__dirname, "datastore/dataset.csv"))
+            //     .pipe(csv())
+            //     .on('data', (row) => {
+            //         Computer.create(row).then().catch(err => {
+            //             console.log(err);
+            //         });
+            //     })
+            //     .on('end', () => {
+            //         console.log('CSV file successfully processed and loaded to database (Memory).');
+            //     });
         });
     })
 
