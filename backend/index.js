@@ -10,10 +10,14 @@ const csv = require('csv-parser');
 const fs = require('fs');
 const db = require('./database');
 const Computer = require('./model/computer');
+
 // App
 const app = express();
 app.use(cors());
 app.use(bodyparser.json());
+
+var computerRoute = require('./routes/computers');
+app.use("/computers",computerRoute);
 
 async function initConn() {
     try {
@@ -49,80 +53,7 @@ initConn()
 
 
 
-app.get('/computers', (req, res) => {
-    const limit = req.query.limit || 10
-    const page = req.query.page || 1
-    const offset = (page - 1) * limit;
-    Computer.count().then((amount) => {
-        Computer.findAll({
-            offset: offset,
-            limit: limit
-        }).then((result) => {
-            res.json({
-                result: result,
-                count: limit,
-                totalCount: amount
-            });
-        })
-    })
-});
 
-app.get('/computers/cpu', (req, res) => {
-    Computer.aggregate('CPU', 'DISTINCT', {
-        plain: false
-    }).then((result) => {
-        let data = [];
-        result.forEach(element => {
-            data.push(element['DISTINCT']);
-        });
-        res.json({
-            'count': data.length,
-            'cpus': data
-        });
-    });
-});
-app.get('/computers/ram', (req, res) => {
-    Computer.aggregate('RAM', 'DISTINCT', {
-        plain: false
-    }).then((result) => {
-        let data = [];
-        result.forEach(element => {
-            data.push(element['DISTINCT']);
-        });
-        res.json({
-            'count': data.length,
-            'rams': data
-        });
-    });
-});
-app.get('/computers/opsys', (req, res) => {
-    Computer.aggregate('OpSys', 'DISTINCT', {
-        plain: false
-    }).then((result) => {
-        let data = [];
-        result.forEach(element => {
-            data.push(element['DISTINCT']);
-        });
-        res.json({
-            'count': data.length,
-            'opsys': data
-        });
-    });
-});
-app.get('/computers/inches', (req, res) => {
-    Computer.aggregate('Inches', 'DISTINCT', {
-        plain: false
-    }).then((result) => {
-        let data = [];
-        result.forEach(element => {
-            data.push(element['DISTINCT']);
-        });
-        res.json({
-            'count': data.length,
-            'inches': data
-        });
-    });
-});
 
 app.listen(PORT, HOST);
 console.log(`Running on http://${HOST}:${PORT}.`);
